@@ -4,7 +4,7 @@
 "
 " TODO: 
 "  - exit if Fugitive is not found
-"  - handle diff of non file line
+"  + handle diff of non file line
 "  - move cursor back to original position at the end of ribbon#diff()
 "  - easy quit from diff OR easy return to Ribbon window
 "  - do I still need openWindow?  probably want :Ribbon and :RibbonToggle?
@@ -57,6 +57,16 @@ endfunction
 function! ribbon#diff()
     " get filename to diff
     let l:filename = getline(".")
+    
+    " return if file does not exist
+    let l:cwd = getcwd()
+    Gcd
+    let l:repo = getcwd()
+    execute 'cd ' . l:cwd
+    echo l:repo . l:filename
+    if !filereadable(l:repo . '/' . l:filename)
+        return
+    endif
 
     " get revisions
     let l:lineNr    = search(') \(\w\+:\w\+\)$', 'b')
@@ -65,15 +75,12 @@ function! ribbon#diff()
     let l:rev       = split(l:revisions, ':')
 
     " do split 1
-    "topleft split
-    let l:gitCmd = 'Git! show ' . l:rev[0] . ':' . l:filename
-    execute l:gitCmd
+    execute 'Git! show ' . l:rev[0] . ':' . l:filename
     diffthis
 
     " do split 2
     vsplit
-    let l:gitCmd  = 'Git! show ' . l:rev[1] . ':' . l:filename
-    execute l:gitCmd
+    execute 'Git! show ' . l:rev[1] . ':' . l:filename
     diffthis
 endfunction
 
