@@ -1,6 +1,10 @@
 " ribbon.vim - Browse the latest git repo changes
 " Maintainer:  Eric Johnson <http://kablamo.org>
 " Version:     0.01
+"
+" TODO: 
+"  - move cursor back to original position at the end of ribbon#diff()
+"  - easy quit from diff OR easy return to Ribbon window
 
 let g:RibbonBufname='Ribbon'
 let g:RibbonHeight=10
