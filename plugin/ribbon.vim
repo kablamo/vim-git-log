@@ -3,6 +3,7 @@
 " Version:     0.01
 
 let g:RibbonBufname='Ribbon'
+let g:RibbonHeight=15
 
 let s:bufnr=0
 
@@ -23,9 +24,8 @@ function! s:Ribbon()
         return s:openWindow()
     endif
 
-    new
-    let l:fileCmd='file ' . g:RibbonBufname
-    execute l:fileCmd
+    let l:cmd = 'edit ' . g:RibbonBufname
+    execute l:cmd
     setlocal buftype=nofile
     setlocal noswapfile
     setlocal nowrap
@@ -48,11 +48,26 @@ function! s:Ribbon()
 endfunction
 
 function! ribbon#diff()
-    let l:lineNr = search(') \(\w\+:\w\+\)$', 'b')
-    let l:r      = submatch(1)
-    echo l:r
-    " let l:cmd    = 'Gdiff -r ' + l:r
-    " execute l:cmd
+    " get filename to diff
+    let l:filename = getline(".")
+
+    " get revisions
+    let l:lineNr    = search(') \(\w\+:\w\+\)$', 'b')
+    let l:line      = getline(l:lineNr)
+    let l:revisions = substitute(l:line, '.*) \(\w\+:\w\+\)$', '\=submatch(1)', "")
+    let l:rev       = split(l:revisions, ':')
+
+    " do split 1
+    topleft split
+    let l:gitCmd = 'Git! show ' . l:rev[0] . ':' . l:filename
+    execute l:gitCmd
+    diffthis
+
+    " do split 2
+    vsplit
+    let l:gitCmd  = 'Git! show ' . l:rev[1] . ':' . l:filename
+    execute l:gitCmd
+    diffthis
 endfunction
 
 function! s:RibbonSave()
