@@ -5,6 +5,7 @@
 " TODO: 
 "  - move cursor back to original position at the end of ribbon#diff()
 "  - easy quit from diff OR easy return to Ribbon window
+"  - do I still need openWindow?  probably want :Ribbon and :RibbonToggle?
 
 let g:RibbonBufname='Ribbon'
 let g:RibbonHeight=10
