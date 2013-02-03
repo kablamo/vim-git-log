@@ -23,8 +23,8 @@ function! s:Ribbon()
 endfunction
 
 function! s:RibbonSave()
-  echo 'boopsave'
-  return 1;
+  silent !git tag --force _ribbon origin/master
+  redraw!
 endfunction
 
 command! Ribbon     :call s:Ribbon()
