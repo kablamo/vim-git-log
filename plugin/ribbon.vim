@@ -3,7 +3,7 @@
 " Version:     0.01
 
 let g:RibbonBufname='Ribbon'
-let g:RibbonHeight=15
+let g:RibbonHeight=10
 
 let s:bufnr=0
 
@@ -29,9 +29,9 @@ function! s:Ribbon()
     setlocal buftype=nofile
     setlocal noswapfile
     setlocal nowrap
-    set bufhidden=hide
-    setlocal nobuflisted
-    setlocal nolist
+    "set bufhidden=hide
+    "setlocal nobuflisted
+    "setlocal nolist
     setlocal noinsertmode
     setlocal nonumber
     setlocal cursorline
@@ -58,7 +58,7 @@ function! ribbon#diff()
     let l:rev       = split(l:revisions, ':')
 
     " do split 1
-    topleft split
+    "topleft split
     let l:gitCmd = 'Git! show ' . l:rev[0] . ':' . l:filename
     execute l:gitCmd
     diffthis
