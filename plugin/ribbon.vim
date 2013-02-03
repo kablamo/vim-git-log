@@ -3,6 +3,8 @@
 " Version:     0.01
 "
 " TODO: 
+"  - exit if Fugitive is not found
+"  - handle diff of non file line
 "  - move cursor back to original position at the end of ribbon#diff()
 "  - easy quit from diff OR easy return to Ribbon window
 "  - do I still need openWindow?  probably want :Ribbon and :RibbonToggle?
