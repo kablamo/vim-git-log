@@ -63,7 +63,6 @@ function! ribbon#diff()
     Gcd
     let l:repo = getcwd()
     execute 'cd ' . l:cwd
-    echo l:repo . l:filename
     if !filereadable(l:repo . '/' . l:filename)
         return
     endif
