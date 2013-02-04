@@ -74,4 +74,4 @@ This script was inspired by
 http://gitready.com/advanced/2011/10/21/ribbon-and-catchup-reading-new-commits.html
 
 I also wrote [git-ribbon](https://github.com/kablamo/git-ribbon), a little Perl
-script with pretty much the same purpose.
+script that does pretty much the same thing but from the commandline.
