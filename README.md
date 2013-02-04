@@ -13,7 +13,7 @@ How to use it
     :RibbonSave
 
 This will place a tag named __ribbon at origin/master.  Basically you are
-bookmarking our current spot with a 'ribbon'.
+bookmarking our current spot with a `ribbon`.
 
 **Next**, use Fugitive to pull down the latest changes made by your fellow conspirators from the
 remote repository.  
@@ -45,8 +45,8 @@ This will open a window titled 'Ribbon' that looks like this:
     root/html/calculator/realCost.tt
 
 You can view the side by side diff of any modified file by putting your cursor
-on that line and typing 'd' (for diff).  To exit out of the diff and return to
-the 'Ribbon' window, type 'q'.
+on that line and typing `d` (for diff).  To exit out of the diff and return to
+the 'Ribbon' window, type `q`.
 
 **Finally**, after you have reviewed all the changes, mark your place again with:
 
