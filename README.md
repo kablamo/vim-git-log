@@ -5,12 +5,6 @@ vim-ribbon is a Vim plugin that helps you read through the latest changes to a
 git repository.  This plugin requires
 [Fugitive](https://github.com/tpope/vim-fugitive).
 
-How to install it
------------------
-
-I use [Pathogen](https://github.com/tpope/vim-pathogen) but there seem to be 20
-different plugin managers for Vim so whatever floats your boat.
-
 How to use it
 -------------
 
