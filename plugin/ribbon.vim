@@ -7,7 +7,7 @@
 "  + move cursor back to original position at the end of ribbon#diff()
 "  - smoother diff action
 "  - exit if Fugitive is not found
-"  - easy quit from diff OR easy return to Ribbon window
+"  + easy quit from diff OR easy return to Ribbon window
 "  - do I still need openWindow?  probably want :Ribbon and :RibbonToggle?
 
 let g:RibbonBufname='Ribbon'
@@ -79,13 +79,22 @@ function! ribbon#diff()
     let l:rev       = split(l:revisions, ':')
     execute 'normal ' . l:oldLineNr . 'G'
 
-    " do split 1
+    " show rev0:file
     execute 'Git! show ' . l:rev[0] . ':' . l:filename
-    diffthis
+    let l:bufnr0 = bufnr("")
 
-    " do split 2
-    execute 'vsplit | Git! show ' . l:rev[1] . ':' . l:filename
+    " show rev1:file
+    execute 'rightbelow vsplit | Git! show ' . l:rev[1] . ':' . l:filename
+    let l:bufnr1 = bufnr("")
+    let l:cmd='nnoremap <buffer> <silent> q :' . l:bufnr0 . 'bunload<cr>:' . l:bufnr1 . 'bunload<cr>'
+
+    " show diff
     diffthis
+    wincmd p
+    execute l:cmd
+    diffthis
+    wincmd p
+    execute l:cmd
 
     " return user to original wd
     execute 'cd ' . l:cwd
