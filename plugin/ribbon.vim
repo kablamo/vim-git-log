@@ -3,37 +3,19 @@
 " Version:     0.01
 "
 " TODO: 
-"  + handle diff of non file line
-"  + move cursor back to original position at the end of ribbon#diff()
 "  - smoother diff action
 "  - exit if Fugitive is not found
-"  + easy quit from diff OR easy return to Ribbon window
-"  - do I still need openWindow?  probably want :Ribbon and :RibbonToggle?
 
 let g:RibbonBufname='Ribbon'
 let g:RibbonHeight=10
 
 let s:bufnr=0
 
-function! s:openWindow()
-    let l:bufwinnr = bufwinnr(s:bufnr)
-    if l:bufwinnr == winnr()
-        " viewport wth buffer already active and current
-        return
-    else
-        " viewport with buffer exists, but not current
-        execute(l:bufwinnr . " wincmd w")
-    endif
-endfunction
-
 function! s:Ribbon()
-    " open existing window if buffer exists and is open
-    if bufwinnr(s:bufnr) > 0
-        return s:openWindow()
-    endif
-
     let l:cmd = 'edit ' . g:RibbonBufname
     execute l:cmd
+
+    " setup new Ribbon buffer
     setlocal buftype=nofile
     setlocal noswapfile
     setlocal nowrap
@@ -51,6 +33,7 @@ function! s:Ribbon()
       setlocal concealcursor=nc conceallevel=2
     endif
 
+    " load git output into the Ribbon buffer
     let l:cmd = 'silent 0read ! git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --name-only --no-merges --reverse --topo-order _ribbon..origin/master'
     execute l:cmd
     normal 1G
@@ -71,7 +54,7 @@ function! ribbon#diff()
         return
     endif
 
-    " get revisions
+    " parse git output in Ribbon buffer to get revisions
     let l:oldLineNr = line(".")
     let l:lineNr    = search(') \(\w\+:\w\+\)$', 'b')
     let l:line      = getline(l:lineNr)
