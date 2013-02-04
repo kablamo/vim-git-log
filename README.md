@@ -52,12 +52,11 @@ the 'Ribbon' window, type `q`.
 
     :RibbonSave
 
+Bonus tips
+----------
 
-Pro tips
---------
-
-The default colors used in vimdiff were created by insane clowns.  You might
-like my colorscheme instead:
+The default colors used in vimdiff look like they were created by crazy clowns.
+You might like my colorscheme instead:
 
     ⚡ mkdir -p ~/.vim/colors/
     ⚡ wget https://github.com/kablamo/dotfiles/blob/master/links/.vim/colors/iijo.vim -O ~/tmp/iijo.vim
