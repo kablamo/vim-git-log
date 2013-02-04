@@ -3,9 +3,10 @@
 " Version:     0.01
 "
 " TODO: 
-"  - exit if Fugitive is not found
 "  + handle diff of non file line
-"  - move cursor back to original position at the end of ribbon#diff()
+"  + move cursor back to original position at the end of ribbon#diff()
+"  - smoother diff action
+"  - exit if Fugitive is not found
 "  - easy quit from diff OR easy return to Ribbon window
 "  - do I still need openWindow?  probably want :Ribbon and :RibbonToggle?
 
@@ -46,6 +47,9 @@ function! s:Ribbon()
     setlocal matchpairs=""
     noremap <buffer> <silent> q :bdelete<cr>
     noremap <buffer> <silent> d :call ribbon#diff()<cr>
+    if exists('+concealcursor')
+      setlocal concealcursor=nc conceallevel=2
+    endif
 
     let l:cmd = 'silent 0read ! git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --name-only --no-merges --reverse --topo-order _ribbon..origin/master'
     execute l:cmd
@@ -62,25 +66,29 @@ function! ribbon#diff()
     let l:cwd = getcwd()
     Gcd
     let l:repo = getcwd()
-    execute 'cd ' . l:cwd
     if !filereadable(l:repo . '/' . l:filename)
+        execute 'cd ' . l:cwd
         return
     endif
 
     " get revisions
+    let l:oldLineNr = line(".")
     let l:lineNr    = search(') \(\w\+:\w\+\)$', 'b')
     let l:line      = getline(l:lineNr)
     let l:revisions = substitute(l:line, '.*) \(\w\+:\w\+\)$', '\=submatch(1)', "")
     let l:rev       = split(l:revisions, ':')
+    execute 'normal ' . l:oldLineNr . 'G'
 
     " do split 1
     execute 'Git! show ' . l:rev[0] . ':' . l:filename
     diffthis
 
     " do split 2
-    vsplit
-    execute 'Git! show ' . l:rev[1] . ':' . l:filename
+    execute 'vsplit | Git! show ' . l:rev[1] . ':' . l:filename
     diffthis
+
+    " return user to original wd
+    execute 'cd ' . l:cwd
 endfunction
 
 function! s:RibbonSave()
