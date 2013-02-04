@@ -64,7 +64,7 @@ like my colorscheme instead:
     ⚡ echo "colorscheme iijo" >> ~/.vimrc
 
 How to use vimdiff:
- - To switch windows type 'ctl-w l' and 'ctl-w h'.  For more help see ':help window-move-cursor'
+ - To switch windows type <code>ctl-w l</code> and 'ctl-w h'.  For more help see ':help window-move-cursor'
  - To open and close folds type 'zo' and 'zo'.  For more help see ':help fold-commands'
 
 See also
