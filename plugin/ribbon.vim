@@ -34,7 +34,7 @@ function! s:Ribbon()
     endif
 
     " load git output into the Ribbon buffer
-    let l:cmd = 'silent 0read ! git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --stat --no-merges --reverse --topo-order _ribbon..origin/master'
+    let l:cmd = 'silent 0read ! git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --filename-only --no-merges --reverse --topo-order _ribbon..origin/master'
     execute l:cmd
     normal 1G
 
