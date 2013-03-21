@@ -13,7 +13,7 @@ let g:GitLogGitCmd = 'git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --na
 
 let s:bufnr = 0
 
-function! s:GitLog(ribbon)
+function! s:GitLog(ribbon, ...)
 
     " create new buffer
     let l:bufname = g:GitLogBufname
@@ -46,6 +46,9 @@ function! s:GitLog(ribbon)
     if a:ribbon == 1
         let l:cmd = l:cmd . '--reverse _ribbon..origin/master'
     endif
+    for c in a:000
+        let l:cmd = l:cmd . ' ' . c . ' '
+    endfor
     execute l:cmd
     normal 1G
 
@@ -100,8 +103,8 @@ function! s:RibbonSave()
     redraw!
 endfunction
 
-command! GitLog     :call s:GitLog(0)
-command! Ribbon     :call s:GitLog(1)
-command! RibbonSave :call s:RibbonSave()
+command! -nargs=* GitLog     :call s:GitLog(0, <f-args>)
+command!          Ribbon     :call s:GitLog(1)
+command!          RibbonSave :call s:RibbonSave()
 
 
