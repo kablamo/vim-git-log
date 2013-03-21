@@ -1,4 +1,4 @@
-" ribbon.vim - Browse the latest git repo changes
+" vim-git-log.vim - Browse your git log changes
 " Maintainer:  Eric Johnson <http://kablamo.org>
 " Version:     0.01
 "
@@ -6,16 +6,24 @@
 "  - smoother diff action
 "  - exit if Fugitive is not found
 
-let g:RibbonBufname='Ribbon'
-let g:RibbonHeight=10
+let g:RibbonBufname = 'Ribbon'
+let g:GitLogBufname = 'GitLog'
+let g:RibbonHeight  = 10
+let g:GitLogGitCmd = 'git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --name-only --no-merges --topo-order'
 
-let s:bufnr=0
+let s:bufnr = 0
 
-function! s:Ribbon()
-    let l:cmd = 'edit ' . g:RibbonBufname
+function! s:GitLog(ribbon)
+
+    " create new buffer
+    let l:bufname = g:GitLogBufname
+    if a:ribbon == 1
+        let l:bufname = g:RibbonBufname
+    endif
+    let l:cmd = 'edit ' . l:bufname
     execute l:cmd
 
-    " setup new Ribbon buffer
+    " setup new buffer
     setlocal buftype=nofile
     setlocal noswapfile
     setlocal nowrap
@@ -28,20 +36,24 @@ function! s:Ribbon()
     setlocal nospell
     setlocal matchpairs=""
     noremap <buffer> <silent> q :bdelete<cr>
-    noremap <buffer> <silent> d :call ribbon#diff()<cr>
+    noremap <buffer> <silent> d :call gitlog#diff()<cr>
     if exists('+concealcursor')
       setlocal concealcursor=nc conceallevel=2
     endif
 
-    " load git output into the Ribbon buffer
-    let l:cmd = 'silent 0read ! git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --filename-only --no-merges --reverse --topo-order _ribbon..origin/master'
+    " load git log output into the new buffer
+    let l:cmd = 'silent 0read ! ' . g:GitLogGitCmd
+    if a:ribbon == 1
+        let l:cmd = l:cmd . '--reverse _ribbon..origin/master'
+    endif
     execute l:cmd
     normal 1G
 
     let s:bufnr = bufnr(g:RibbonBufname)
 endfunction
 
-function! ribbon#diff()
+function! gitlog#diff()
+
     " get filename to diff
     let l:filename = getline(".")
     
@@ -88,7 +100,8 @@ function! s:RibbonSave()
     redraw!
 endfunction
 
-command! Ribbon     :call s:Ribbon()
+command! GitLog     :call s:GitLog(0)
+command! Ribbon     :call s:GitLog(1)
 command! RibbonSave :call s:RibbonSave()
 
 
