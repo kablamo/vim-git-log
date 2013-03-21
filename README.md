@@ -7,11 +7,25 @@ requires [Fugitive](https://github.com/tpope/vim-fugitive).
 How to use :GitLog
 -------------
 
-Type this:
+To get list of the changes in your git repo type this:
 
     :GitLog
 
-This will open a window titled 'GitLog' that looks like this:
+Type this to get the log for changes in the 'lib' directory instead of the root
+of the repository:
+
+    :GitLog lib
+
+or this:
+
+    :GitLog <since>..<until>
+
+Actually this plugin is just a wrapper around `git log` so nearly any option or
+argument that you can use with `git log` can be used here.  The exceptions are
+--pretty and options that affect --pretty.   
+
+Running any of the above commands will open a window titled 'GitLog' that looks
+like this and allows you to browse the git log:
 
     Eric Johnson 4 weeks ago 5ef0fb2
     Added daysPerYear.
