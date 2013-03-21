@@ -1,11 +1,42 @@
-vim-ribbon
+vim-git-log
 ==========
 
-vim-ribbon is a Vim plugin that helps you read through the latest changes to a
-git repository.  This plugin requires
-[Fugitive](https://github.com/tpope/vim-fugitive).
+vim-git-log is a Vim plugin that helps browse your git log.  This plugin
+requires [Fugitive](https://github.com/tpope/vim-fugitive).
 
-How to use it
+How to use :GitLog
+-------------
+
+Type this:
+
+    :GitLog
+
+This will open a window titled 'GitLog' that looks like this:
+
+    Eric Johnson 4 weeks ago 5ef0fb2
+    Added daysPerYear.
+    lib/Networth/Controller/Calculator.pm
+    lib/Networth/Out/RealCost.pm
+    root/html/calculator/realCost.tt
+
+    Eric Johnson 5 weeks ago 9595fa0
+    fix css margin class.
+    root/css/networth.css
+    root/css/style.less
+    root/css/style.less.old
+    root/html/calculator/realCost.tt
+    root/html/fi.tt
+
+    Eric Johnson 6 weeks ago ecf43db
+    Css tweaks.
+    root/html/calculator/realCost.tt
+
+You can view the side by side diff of any modified file by putting your cursor
+on that line and typing `d` (for diff).  To exit out of the diff and return to
+the 'GitLog' window, type `q`.
+
+
+How to use :Ribbon
 -------------
 
 **First** mark your place with
