@@ -36,7 +36,7 @@ function! s:GitLog(ribbon)
     setlocal nospell
     setlocal matchpairs=""
     noremap <buffer> <silent> q :bdelete<cr>
-    noremap <buffer> <silent> d :call gitlog#diff()<cr>
+    noremap <buffer> <silent> d :call vimgitlog#diff()<cr>
     if exists('+concealcursor')
       setlocal concealcursor=nc conceallevel=2
     endif
@@ -52,7 +52,7 @@ function! s:GitLog(ribbon)
     let s:bufnr = bufnr(g:RibbonBufname)
 endfunction
 
-function! gitlog#diff()
+function! vimgitlog#diff()
 
     " get filename to diff
     let l:filename = getline(".")
