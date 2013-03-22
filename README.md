@@ -4,25 +4,40 @@ vim-git-log
 vim-git-log is a Vim plugin that helps browse your git log.  This plugin
 requires [Fugitive](https://github.com/tpope/vim-fugitive).
 
-How to use :GitLog
+GitLog
 -------------
 
-To get list of the changes in your git repo type this:
+To open a new buffer which displays a list of the changes in your git repo:
 
     :GitLog
 
-Type this to get the log for changes in the 'lib' directory instead of the root
-of the repository:
+This plugin is basically a wrapper around `git log` so nearly any option or
+argument that you can use with `git log` can be used here.  The exceptions are
+--pretty and options that affect --pretty.  Here are some more examples:
+
+View changes from the 'lib' directory instead of the repository root:
 
     :GitLog lib
 
-or this:
+View changes from a specifi author/committer:
 
+    :GitLog --author Batman
+
+View changes where the commit message matches a (PCRE) regular expression
+
+    :GitLog --grep 'dinosaurs'
+
+View changes for a date range
+
+    :GitLog --since yesterday
+    :GitLog --since '1 month 1 week 1 day 1 hour 1 second'
+    :GitLog --since 2012-12-31
+    :GitLog --until 2012-12-31 23:30:60
     :GitLog <since>..<until>
 
-Actually this plugin is just a wrapper around `git log` so nearly any option or
-argument that you can use with `git log` can be used here.  The exceptions are
---pretty and options that affect --pretty.   
+
+How to use the log browser
+--------------------------
 
 Running any of the above commands will open a window titled 'GitLog' that looks
 like this and allows you to browse the git log:
@@ -45,12 +60,22 @@ like this and allows you to browse the git log:
     Css tweaks.
     root/html/calculator/realCost.tt
 
-You can view the side by side diff of any modified file by putting your cursor
-on that line and typing `d` (for diff).  To exit out of the diff and return to
-the 'GitLog' window, type `q`.
+Here are some commands you can use in the browser:
+
+   <cr>  View the side by side diff of any file by putting your cursor on that
+         line and typing `d` (for diff).
+
+   d     This has the same behavior as `<cr>`.
+
+   n     Move your cursor to the first filename in the next commit.
+
+   N     Move your cursor to the first filename in the previous commit.
 
 
-How to use :Ribbon
+To quickly exit out of the diff and return to the 'GitLog' window, type `q`.
+
+
+Ribbon
 -------------
 
 **First** mark your place with
@@ -89,9 +114,8 @@ This will open a window titled 'Ribbon' that looks like this:
     lib/Networth/Out/RealCost.pm
     root/html/calculator/realCost.tt
 
-You can view the side by side diff of any modified file by putting your cursor
-on that line and typing `d` (for diff).  To exit out of the diff and return to
-the 'Ribbon' window, type `q`.
+See the section on *How to use the GitLog browser* for a complete list of all
+the commands available to you. 
 
 **Finally**, after you have reviewed all the changes, mark your place again with:
 
@@ -109,7 +133,7 @@ You might like my colorscheme instead:
 
 How to use vimdiff:
  - To switch windows type `ctl-w l` and `ctl-w h`.  For more help see `:help window-move-cursor`.
- - To open and close folds type `zo` and `zo`.  For more help see `:help fold-commands`.
+ - To open and close folds type `zo` and `zc`.  For more help see `:help fold-commands`.
 
 See also
 --------
