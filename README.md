@@ -62,17 +62,20 @@ like this and allows you to browse the git log:
 
 Here are some commands you can use in the browser:
 
-   <cr>  View the side by side diff of any file by putting your cursor on that
+   d     View the side by side diff of any file by putting your cursor on that
          line and typing `d` (for diff).
 
-   d     This has the same behavior as `<cr>`.
+   <cr>  View the diffstat from `git show $revision` for that commit.
 
    n     Move your cursor to the first filename in the next commit.
 
    N     Move your cursor to the first filename in the previous commit.
 
+   q     Quit.  Closes all the GitLog windows and buffers.
 
-To quickly exit out of the diff and return to the 'GitLog' window, type `q`.
+
+To quickly exit out of a side by side diff and return to the 'GitLog' window,
+type `q`.
 
 
 Ribbon
