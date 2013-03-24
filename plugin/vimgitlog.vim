@@ -62,6 +62,7 @@ function! vimgitlog#setupNewBuf()
     setlocal buftype=nofile
     setlocal noswapfile
     setlocal nowrap
+    setlocal ft=git
     "set bufhidden=hide
     "setlocal nobuflisted
     "setlocal nolist
