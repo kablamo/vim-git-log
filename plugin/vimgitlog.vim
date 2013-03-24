@@ -9,7 +9,8 @@
 let g:RibbonBufname = 'Ribbon'
 let g:GitLogBufname = 'GitLog'
 let g:RibbonHeight  = 10
-let g:GitLogGitCmd = 'git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --name-only --no-merges --topo-order'
+let g:GitLogGitCmd  = 'git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --name-only --no-merges --topo-order '
+let g:GitLogShowCmd = 'git show '
 
 let s:bufnr = 0
 
@@ -23,25 +24,38 @@ function! s:GitLog(ribbon, ...)
     execute l:cmd
 
     " setup new buffer
-    call vimgitlog#setupNewBuf(l:bufname)
-    noremap <buffer> <silent> q    :bdelete<cr>
+    call vimgitlog#setupNewBuf()
+    noremap <buffer> <silent> q    :call vimgitlog#quit()<cr>
     noremap <buffer> <silent> d    :call vimgitlog#diff()<cr>
     noremap <buffer> <silent> <cr> :call vimgitlog#showdiffstat()<cr>
     noremap <buffer> <silent> n    :call vimgitlog#nextFile()<cr>
     noremap <buffer> <silent> N    :call vimgitlog#prevFile()<cr>
 
     " load git log output into the new buffer
-    let l:cmd = 'silent 0read ! ' . g:GitLogGitCmd
+    let l:cmd = g:GitLogGitCmd
     if a:ribbon == 1
         let l:cmd = l:cmd . '--reverse _ribbon..origin/master'
     endif
     for c in a:000
         let l:cmd = l:cmd . ' ' . c . ' '
     endfor
-    execute l:cmd
-    normal 1G
+    call vimgitlog#loadCmdIntoBuffer(l:cmd)
 
     let s:bufnr = bufnr(g:RibbonBufname)
+endfunction
+
+function! vimgitlog#quit()
+    if bufloaded('diffstat')
+        wincmd l
+        bdelete
+    endif
+    bdelete
+endfunction
+
+function! vimgitlog#loadCmdIntoBuffer(cmd)
+    let l:fullCmd = 'silent 0read ! ' . a:cmd
+    execute l:fullCmd
+    normal 1G
 endfunction
 
 function! vimgitlog#setupNewBuf()
@@ -69,10 +83,18 @@ function! vimgitlog#showdiffstat()
     let l:rev       = split(l:revisions, ':')
     execute 'normal ' . l:lineNr . 'Gjj'
 
-    let l:cmd = 'edit ' . l:bufname
-    execute l:cmd
-    call vimgitlog#setupNewBuf(l:bufname)
+    if bufloaded('diffstat')
+        wincmd l
+    else
+        vsplit diffstat
+        wincmd r
+        call vimgitlog#setupNewBuf()
+    endif
 
+    let l:cmd = 'git show ' . l:rev[1]
+    call vimgitlog#loadCmdIntoBuffer(l:cmd)
+
+    wincmd h
 endfunction
 
 function! vimgitlog#nextFile()
