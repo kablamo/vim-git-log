@@ -11,6 +11,7 @@ let g:GitLogBufname = 'GitLog'
 let g:RibbonHeight  = 10
 let g:GitLogGitCmd  = 'git log --pretty=format:''\%an (\%cr) \%p:\%h\%n\%s'' --name-only --no-merges --topo-order '
 let g:GitLogShowCmd = 'git show '
+let g:GitLogShowLines = 300
 
 let s:bufnr = 0
 
@@ -53,7 +54,7 @@ function! vimgitlog#quit()
 endfunction
 
 function! vimgitlog#loadCmdIntoBuffer(cmd)
-    let l:fullCmd = 'silent 0read ! ' . a:cmd
+    let l:fullCmd = 'silent 0read ! ' . a:cmd . ' | head -' . g:GitLogShowLines
     execute l:fullCmd
     normal 1G
 endfunction
