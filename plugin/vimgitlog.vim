@@ -14,6 +14,8 @@ let g:GitLogShowCmd = 'git show '
 let g:GitLogShowLines = 300
 
 let s:bufnr = 0
+let s:cmd = 0
+let s:lines = 0
 
 function! s:GitLog(ribbon, ...)
     " create new buffer
@@ -29,8 +31,9 @@ function! s:GitLog(ribbon, ...)
     noremap <buffer> <silent> q    :call vimgitlog#quit()<cr>
     noremap <buffer> <silent> d    :call vimgitlog#diff()<cr>
     noremap <buffer> <silent> <cr> :call vimgitlog#showdiffstat()<cr>
-    noremap <buffer> <silent> n    :call vimgitlog#nextFile()<cr>
-    noremap <buffer> <silent> N    :call vimgitlog#prevFile()<cr>
+    noremap <buffer> <silent> f    :call vimgitlog#nextFile()<cr>
+    noremap <buffer> <silent> F    :call vimgitlog#prevFile()<cr>
+    noremap <buffer> <silent> M    :call vimgitlog#loadMoreCmd('-')<cr>
 
     " load git log output into the new buffer
     let l:cmd = g:GitLogGitCmd
@@ -40,9 +43,27 @@ function! s:GitLog(ribbon, ...)
     for c in a:000
         let l:cmd = l:cmd . ' ' . c . ' '
     endfor
-    call vimgitlog#loadCmdIntoBuffer(l:cmd)
+    call vimgitlog#loadMoreCmd(l:cmd)
 
     let s:bufnr = bufnr(g:RibbonBufname)
+endfunction
+
+function! vimgitlog#loadMoreCmd(cmd)
+    if a:cmd != '-'
+        let s:lines = g:GitLogShowLines
+        let s:cmd   = a:cmd
+    else
+        let s:lines = s:lines + g:GitLogShowLines
+        normal G
+    endif
+    let l:fullCmd = 'silent read ! ' . s:cmd . ' | head -' . s:lines . ' | tail -' . g:GitLogShowLines
+    execute l:fullCmd
+    if a:cmd != '-'
+        normal 1G
+    else
+        let l:l = s:lines - g:GitLogShowLines
+        exe "normal " . l:l . "G"
+    endif
 endfunction
 
 function! vimgitlog#quit()
@@ -54,7 +75,7 @@ function! vimgitlog#quit()
 endfunction
 
 function! vimgitlog#loadCmdIntoBuffer(cmd)
-    let l:fullCmd = 'silent 0read ! ' . a:cmd . ' | head -' . g:GitLogShowLines
+    let l:fullCmd = 'silent 0read ! ' . a:cmd
     execute l:fullCmd
     normal 1G
 endfunction
