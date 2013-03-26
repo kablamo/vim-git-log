@@ -93,6 +93,10 @@ function! vimgitlog#showdiffstat()
         call vimgitlog#setupNewBuf()
     endif
 
+    " clear buffer
+    normal 1GdG
+
+    " load diffstat into buffer
     let l:cmd = 'git show ' . l:rev[1]
     call vimgitlog#loadCmdIntoBuffer(l:cmd)
 
