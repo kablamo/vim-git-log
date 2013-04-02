@@ -130,9 +130,9 @@ Bonus tips
 The default colors used in vimdiff look like they were created by crazy clowns.
 You might like my colorscheme instead:
 
-    ⚡ mkdir -p ~/.vim/colors/
-    ⚡ wget https://github.com/kablamo/dotfiles/blob/master/links/.vim/colors/iijo.vim -O ~/tmp/iijo.vim
-    ⚡ echo "colorscheme iijo" >> ~/.vimrc
+    $ mkdir -p ~/.vim/colors/
+    $ wget https://github.com/kablamo/dotfiles/raw/master/links/.vim/colors/iijo.vim -O ~/.vim/colors/iijo.vim
+    $ echo "colorscheme iijo" >> ~/.vimrc
 
 How to use vimdiff:
  - To switch windows type `ctl-w l` and `ctl-w h`.  For more help see `:help window-move-cursor`.
